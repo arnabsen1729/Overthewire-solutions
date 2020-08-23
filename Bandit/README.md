@@ -517,7 +517,116 @@ So give 600 perms to the private key file.
 
 #### Question
 
+There are 2 files in the homedirectory: passwords.old and passwords.new. The password for the next level is in passwords.new and is the only line that has been changed between passwords.old and passwords.new
 
+NOTE: if you have solved this level and see ‘Byebye!’ when trying to log into bandit18, this is related to the next level, bandit19
+
+#### Answer
+
+Clearly we have to use the `diff` command.
+
+```
+    $ bandit17@bandit:~$ diff passwords.new passwords.old
+      42c42
+      < kfBf3eYk5BPBRzwjqutbbfE887SVc5Yd
+      ---
+      > w0Yfolrc5bwjS4qw5mq1nnQi6mF03bii
+
+```
+
+And we get the passwd
+
+**passwd**: `kfBf3eYk5BPBRzwjqutbbfE887SVc5Yd`
+
+<hr>
+
+### Level 18
+
+#### Question
+The password for the next level is stored in a file readme in the homedirectory. Unfortunately, someone has modified .bashrc to log you out when you log in with SSH.
+
+#### Answer
+
+First, when we try to login we are forced to logout as mentioned in the question. But we can pass commands along with the ssh command. Read more [here](https://www.cyberciti.biz/faq/unix-linux-execute-command-using-ssh/). So we will do that.
+
+```
+    $ ssh -p2220 bandit18@bandit.labs.overthewire.org 'cat ./readme'
+```
+
+This will spit out the passwd for the next level. 
+
+**passwd*: `IueksS7Ubh8G3DCwVzrTd8rAVOwq3M5x`
+
+<hr>
+
+### Level 19
+
+#### Question
+The password for the next level is stored in a file readme in the homedirectory. Unfortunately, someone has modified .bashrc to log you out when you log in with SSH.
+
+#### Answer
+
+```
+    $ ssh -p2220 bandit19@bandit.labs.overthewire.org
+```
+
+This will spit out the passwd for the next level. 
+
+**passwd*: `IueksS7Ubh8G3DCwVzrTd8rAVOwq3M5x`
+
+<hr>
+
+### Level 20
+
+#### Question
+To gain access to the next level, you should use the setuid binary in the homedirectory. Execute it without arguments to find out how to use it. The password for this level can be found in the usual place (/etc/bandit_pass), after you have used the setuid binary.
+
+#### Answer
+
+```
+    $ ssh -p2220 bandit20@bandit.labs.overthewire.org
+```
+
+To get some basic idea about setuid, guid and sticky bit watch this video [here](https://www.youtube.com/watch?v=2gHp_CgUets). And as the question suggests when I run the command `./bandit20-do whoami` it says `bandit20` so like whatever we make it execute will be executed with the perms of `bandit20` and thus we can easily look into the passwd.
+
+```
+    $ ./bandit20-do cat /etc/bandit_pass/bandit20
+```
+
+This will spit out the passwd for the next level. 
+
+**passwd*: `GbKksEFF4yrVs6il55v6gwY5aVje5f0j`
+
+<hr>
+
+### Level 21
+
+#### Question
+There is a setuid binary in the homedirectory that does the following: it makes a connection to localhost on the port you specify as a commandline argument. It then reads a line of text from the connection and compares it to the password in the previous level (bandit20). If the password is correct, it will transmit the password for the next level (bandit21).
+
+#### Answer
+
+```
+    $ ssh -p2220 bandit21@bandit.labs.overthewire.org
+```
+
+Basically what we need to do is set up our own port which will echo out the current password. I have taken 4242 as just an example. 
+
+```
+    $ echo "GbKksEFF4yrVs6il55v6gwY5aVje5f0j" | nc -l localhost -p 4242
+```
+
+But you will notice one thing once you do this, you cannot type any other command so you need to run it in background. In linux we can do that by just appending a '&' at the end. It will run this process in the background. 
+
+```
+    $ echo "GbKksEFF4yrVs6il55v6gwY5aVje5f0j" | nc -l localhost -p 4242 &
+    $ ./suconnect 4242
+```
+
+This will give us the passwd
+
+
+**passwd*: `gE269g2h3mw3pwgrj0Ha9Uoqen1c9DGr`
 
 References:
 * [CheatSheet](https://gist.github.com/bradtraversy/ac3b1136fc7d739a788ad1e42a78b610#file-myscript-sh)
