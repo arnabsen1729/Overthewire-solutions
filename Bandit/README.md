@@ -5,7 +5,7 @@
     $ cat readme 
 ```
 
- **pwd** : ```boJ9jbbUNNfktd78OOpsqOltutMc3MY1```
+ **passwd** : ```boJ9jbbUNNfktd78OOpsqOltutMc3MY1```
 
  <hr>
 
@@ -19,7 +19,7 @@
 Here, the file is '-'. Now simply typing ```cat -``` will not give the desired output because cat treats it as a synonym for stdin. So we can use it in a slight different manner and use
 ``` cat ./-``` instead. 
 
- **pwd** : ```CV1DtqXWVFXTvM2F0k09SHz0YwRINYA9```
+ **passwd** : ```CV1DtqXWVFXTvM2F0k09SHz0YwRINYA9```
 
  <hr>
 
@@ -32,7 +32,7 @@ Here, the file is '-'. Now simply typing ```cat -``` will not give the desired o
 
 The filename here had spaces between them, so while using cat we need to use backslash as an escape sequence. Much easier way to get around this is type a first few chars and then press tab for autocompletion, it takes care of that itself.
 
- **pwd** : ```UmHadQclWmgdLOKQ3YNgjWxGoRMb5luK```
+ **passwd** : ```UmHadQclWmgdLOKQ3YNgjWxGoRMb5luK```
 
 <hr>
 
@@ -46,7 +46,7 @@ The filename here had spaces between them, so while using cat we need to use bac
 
 Hidden files in linux system are prefixed with '.' . Just ls command won't show the hidden files. Use ls -a instead.
 
- **pwd** : ```pIwrPrtPN36QITSp3EQaw936yaFoFgAB```
+ **passwd** : ```pIwrPrtPN36QITSp3EQaw936yaFoFgAB```
 
 <hr>
 
@@ -59,7 +59,7 @@ Hidden files in linux system are prefixed with '.' . Just ls command won't show 
 
 To get the human readable chars we can simply use the ```strings``` command. Here we have 10 files we can manually run strings command against each of them or simply run a oneliner bash loop. To learn more click [here](https://www.cyberciti.biz/faq/bash-for-loop/)
 
- **pwd** : ```koReBOKuIDDepwhWk7jZC0RTdopnAYKh```
+ **passwd** : ```koReBOKuIDDepwhWk7jZC0RTdopnAYKh```
 
 <hr>
 
@@ -87,7 +87,7 @@ Listing all the folders in the inhere directory we see there are a lot of them. 
 
 Let's explain this command, inside the quotes a $ sign is mentioned and then inside brackets a bash command. So the bash terminal runs the bash command, and then whatever output it gets it sends that to the strings command.
 
- **pwd** : ```DXjZPULLxYr17uwoI01bNLQbtFemEgo7```
+ **passwd** : ```DXjZPULLxYr17uwoI01bNLQbtFemEgo7```
 
  <hr>
 
@@ -122,7 +122,7 @@ So this will do the magic.
     $strings "$(find . -depth -type f  -size 33c -group bandit6 -user bandit7 2> /dev/null)"
 ```
 
- **pwd** : ```HKBPTKQnIay4Fw76bEy8PVxKEDQRKTzs```
+ **passwd** : ```HKBPTKQnIay4Fw76bEy8PVxKEDQRKTzs```
 
  <hr>
 
@@ -142,7 +142,7 @@ So simply grep would achive that. So just use strings on data.txt and pipe that 
     $ strings data.txt | grep millionth
 ```
 
- **pwd** : ```cvX2JJa4CFALtqS87jk27qwqGhBM9plV```
+ **passwd** : ```cvX2JJa4CFALtqS87jk27qwqGhBM9plV```
 
  <hr>
 
@@ -162,7 +162,7 @@ First learn about sort and uniq commands, read the manual for them. It is just u
     $ sort data.txt | uniq -u
 ```
 
-**pwd** : ```UsvVyFSfZZWbi6wgC7dAFyFuR6jQQUhR```
+**passwd** : ```UsvVyFSfZZWbi6wgC7dAFyFuR6jQQUhR```
 
 <hr>
 
@@ -190,7 +190,7 @@ Z)========== is
 ```
 Clearly we know which one the passwd is 
 
-**pwd** : ```truKLdjsbJ5g7yyJ2X2R0o3a5HQJFuLk```
+**passwd** : ```truKLdjsbJ5g7yyJ2X2R0o3a5HQJFuLk```
 
 <hr>
 
@@ -222,7 +222,7 @@ Read about [base64](https://en.wikipedia.org/wiki/Base64). There are many ways t
     $ cat data.txt | base64 -d
 ```
 
-**pwd** : ```IFukwKGsFW8MOq3IRFqrxE1hxTNEbUPR```
+**passwd** : ```IFukwKGsFW8MOq3IRFqrxE1hxTNEbUPR```
 
 <hr>
 
@@ -244,7 +244,7 @@ There is a website called rot13.org which decodes it. Otherwise we can use the t
 ```
 tr can map of set of chars with another set. That is what is used here
 
-**pwd** : ```5Te8Y4drgCRfCx8ugdwuEX8KFC6k2EUu```
+**passwd** : ```5Te8Y4drgCRfCx8ugdwuEX8KFC6k2EUu```
 
 <hr>
 
@@ -317,7 +317,7 @@ As suggested I created a folder in tmp. I made abc19, if the name you chose is a
 ```
 Ahh! Finally 
 
-**pwd** : ```8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL```
+**passwd** : ```8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL```
 
 <hr>
 
@@ -332,6 +332,10 @@ The password for the next level is stored in /etc/bandit_pass/bandit14 and can o
     $ ssh -p2220 bandit13@bandit.labs.overthewire.org
     $ ssh bandit14@localhost -i sshkey.private 
 ```
+
+Now since you are logged in as bandit14 we can get the pass by opening the file `/etc/bandit_pass/bandit14`
+
+**passwd** : ```4wcYUJFw0k0XLShlDzztnTBHiqxU3b3e```
 
 <hr>
 
@@ -358,7 +362,7 @@ Then use that pass to submit it to localhost at port 30000. We can use netcat fo
     BfMYroe26WYalil77FoDi9qh59eK5xNr
 ```
 
-**pwd** : ```BfMYroe26WYalil77FoDi9qh59eK5xNr```
+**passwd** : ```BfMYroe26WYalil77FoDi9qh59eK5xNr```
 
 <hr>
 
@@ -372,19 +376,147 @@ Helpful note: Getting “HEARTBEATING” and “Read R BLOCK”? Use -ign_eof an
 
 #### Answer
  ``` 
-    $ ssh -p2220 bandit11@bandit.labs.overthewire.org 
+    $ ssh -p2220 bandit15@bandit.labs.overthewire.org 
 ```
-It is one of the basic ciphers known as Caesar Cipher or ROT13. 
-There is a website called rot13.org which decodes it. Otherwise we can use the tr command to do it in the terminal. Again to know more about tr command type ```man tr``` in terminal.
+Earlier since we had no ssl encryption needed we used `netcat`, now we have to use SSL encryption for that we will use `openssl`. The syntax being provided in the references. 
+```
+   $ openssl s_client -connect localhost:30001
+```
+After this command we will have to enter the passwd of this level and we will get the passwd for the next one. Also we can do this in one go by
 
 ```
-    $ cat data.txt | tr '[A-MN-Za-mn-z]' '[N-ZA-Mn-za-m]'
+    $ cat /etc/bandit_pass/bandit15 | openssl s_client -connect localhost:30001 -quiet
 ```
-tr can map of set of chars with another set. That is what is used here
 
-**pwd** : ```5Te8Y4drgCRfCx8ugdwuEX8KFC6k2EUu```
+**passwd** : ```cluFn7wTiGryunymYOu4RcffSxQluehd```
 
 <hr>
+
+### Level 16
+
+#### Question
+
+The credentials for the next level can be retrieved by submitting the password of the current level to a port on localhost in the range 31000 to 32000. First find out which of these ports have a server listening on them. Then find out which of those speak SSL and which don’t. There is only 1 server that will give the next credentials, the others will simply send back to you whatever you send to it.
+
+#### Answer
+
+```
+    $ ssh -p2220 bandit16@bandit.labs.overthewire.org
+```
+Since we have to scan ports, the tool that comes in our mind is `nmap`. First let's fire up nmap giving it a port range and in verbose mode and let's see what we get
+
+```
+  $ nmap -v localhost -p31000-32000
+```
+
+The output we get:
+
+```
+Scanning localhost (127.0.0.1) [1001 ports]
+Discovered open port 31960/tcp on 127.0.0.1
+Discovered open port 31691/tcp on 127.0.0.1
+Discovered open port 31518/tcp on 127.0.0.1
+Discovered open port 31790/tcp on 127.0.0.1
+Discovered open port 31046/tcp on 127.0.0.1
+Completed Connect Scan at 09:57, 0.05s elapsed (1001 total ports)
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.00048s latency).
+Not shown: 996 closed ports
+PORT      STATE SERVICE
+31046/tcp open  unknown
+31518/tcp open  unknown
+31691/tcp open  unknown
+31790/tcp open  unknown
+31960/tcp open  unknown
+```
+But this doesn't give us any info about the SSL encryption. One way would be to try all the 5 ports but a smarter approach would be to determine the service and the version in these port. And for that we can use the `-sV` flag of nmap.
+
+```
+  $ nmap -v -sV localhost -p31000-32000
+```
+
+Now the output is:
+
+```
+PORT      STATE SERVICE     VERSION
+31046/tcp open  echo
+31518/tcp open  ssl/echo
+31691/tcp open  echo
+31790/tcp open  ssl/unknown
+31960/tcp open  echo
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port31790-TCP:V=7.40%T=SSL%I=7%D=8/23%Time=5F4221B5%P=x86_64-pc-linux-g
+SF:nu%r(GenericLines,31,"Wrong!\x20Please\x20enter\x20the\x20correct\x20cu
+SF:rrent\x20password\n")%r(GetRequest,31,"Wrong!\x20Please\x20enter\x20the
+SF:\x20correct\x20current\x20password\n")%r(HTTPOptions,31,"Wrong!\x20Plea
+SF:se\x20enter\x20the\x20correct\x20current\x20password\n")%r(RTSPRequest,
+SF:31,"Wrong!\x20Please\x20enter\x20the\x20correct\x20current\x20password\
+SF:n")%r(Help,31,"Wrong!\x20Please\x20enter\x20the\x20correct\x20current\x
+SF:20password\n")%r(SSLSessionReq,31,"Wrong!\x20Please\x20enter\x20the\x20
+SF:correct\x20current\x20password\n")%r(TLSSessionReq,31,"Wrong!\x20Please
+SF:\x20enter\x20the\x20correct\x20current\x20password\n")%r(Kerberos,31,"W
+SF:rong!\x20Please\x20enter\x20the\x20correct\x20current\x20password\n")%r
+SF:(FourOhFourRequest,31,"Wrong!\x20Please\x20enter\x20the\x20correct\x20c
+SF:urrent\x20password\n")%r(LPDString,31,"Wrong!\x20Please\x20enter\x20the
+SF:\x20correct\x20current\x20password\n")%r(LDAPSearchReq,31,"Wrong!\x20Pl
+SF:ease\x20enter\x20the\x20correct\x20current\x20password\n")%r(SIPOptions
+SF:,31,"Wrong!\x20Please\x20enter\x20the\x20correct\x20current\x20password
+SF:\n");
+```
+
+Now we are sure that its port 31790 which is running ssl and not echo. So we can try connecting to it. 
+
+```
+    $ cat /etc/bandit_pass/bandit16 | openssl s_client -connect localhost:31790 -quiet
+```
+
+And the output is a private SSH key:
+
+```
+-----BEGIN RSA PRIVATE KEY-----
+MIIEogIBAAKCAQEAvmOkuifmMg6HL2YPIOjon6iWfbp7c3jx34YkYWqUH57SUdyJ
+imZzeyGC0gtZPGujUSxiJSWI/oTqexh+cAMTSMlOJf7+BrJObArnxd9Y7YT2bRPQ
+Ja6Lzb558YW3FZl87ORiO+rW4LCDCNd2lUvLE/GL2GWyuKN0K5iCd5TbtJzEkQTu
+DSt2mcNn4rhAL+JFr56o4T6z8WWAW18BR6yGrMq7Q/kALHYW3OekePQAzL0VUYbW
+JGTi65CxbCnzc/w4+mqQyvmzpWtMAzJTzAzQxNbkR2MBGySxDLrjg0LWN6sK7wNX
+x0YVztz/zbIkPjfkU1jHS+9EbVNj+D1XFOJuaQIDAQABAoIBABagpxpM1aoLWfvD
+KHcj10nqcoBc4oE11aFYQwik7xfW+24pRNuDE6SFthOar69jp5RlLwD1NhPx3iBl
+J9nOM8OJ0VToum43UOS8YxF8WwhXriYGnc1sskbwpXOUDc9uX4+UESzH22P29ovd
+d8WErY0gPxun8pbJLmxkAtWNhpMvfe0050vk9TL5wqbu9AlbssgTcCXkMQnPw9nC
+YNN6DDP2lbcBrvgT9YCNL6C+ZKufD52yOQ9qOkwFTEQpjtF4uNtJom+asvlpmS8A
+vLY9r60wYSvmZhNqBUrj7lyCtXMIu1kkd4w7F77k+DjHoAXyxcUp1DGL51sOmama
++TOWWgECgYEA8JtPxP0GRJ+IQkX262jM3dEIkza8ky5moIwUqYdsx0NxHgRRhORT
+8c8hAuRBb2G82so8vUHk/fur85OEfc9TncnCY2crpoqsghifKLxrLgtT+qDpfZnx
+SatLdt8GfQ85yA7hnWWJ2MxF3NaeSDm75Lsm+tBbAiyc9P2jGRNtMSkCgYEAypHd
+HCctNi/FwjulhttFx/rHYKhLidZDFYeiE/v45bN4yFm8x7R/b0iE7KaszX+Exdvt
+SghaTdcG0Knyw1bpJVyusavPzpaJMjdJ6tcFhVAbAjm7enCIvGCSx+X3l5SiWg0A
+R57hJglezIiVjv3aGwHwvlZvtszK6zV6oXFAu0ECgYAbjo46T4hyP5tJi93V5HDi
+Ttiek7xRVxUl+iU7rWkGAXFpMLFteQEsRr7PJ/lemmEY5eTDAFMLy9FL2m9oQWCg
+R8VdwSk8r9FGLS+9aKcV5PI/WEKlwgXinB3OhYimtiG2Cg5JCqIZFHxD6MjEGOiu
+L8ktHMPvodBwNsSBULpG0QKBgBAplTfC1HOnWiMGOU3KPwYWt0O6CdTkmJOmL8Ni
+blh9elyZ9FsGxsgtRBXRsqXuz7wtsQAgLHxbdLq/ZJQ7YfzOKU4ZxEnabvXnvWkU
+YOdjHdSOoKvDQNWu6ucyLRAWFuISeXw9a/9p7ftpxm0TSgyvmfLF2MIAEwyzRqaM
+77pBAoGAMmjmIJdjp+Ez8duyn3ieo36yrttF5NSsJLAbxFpdlc1gvtGCWW+9Cq0b
+dxviW8+TFVEBl1O4f7HVm6EpTscdDxU+bCXWkfjuRb7Dy9GOtt9JPsX8MBTakzh3
+vBgsyi/sN3RqRBcGU40fOoZyfAMT8s1m/uYv52O6IgeuZ/ujbjY=
+-----END RSA PRIVATE KEY-----
+```
+
+For logging in as bandit17 we need to save this RSA key in a file (eg. otw). Remember ssh directory permissions should be 700 (drwx------). The public key (. pub file) should be 644 (-rw-r--r--). The private key (id_rsa) on the client host, and the authorized_keys file on the server, should be 600 (-rw-------). 
+
+So give 600 perms to the private key file. 
+
+```
+    $ chmod 600 otw
+    $ ssh -p2220 bandit17@bandit.labs.overthewire.org -i otw
+```
+
+<hr>
+
+### Level 17
+
+#### Question
+
 
 
 References:
