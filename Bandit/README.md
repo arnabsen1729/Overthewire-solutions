@@ -559,24 +559,8 @@ This will spit out the passwd for the next level.
 
 <hr>
 
+
 ### Level 19
-
-#### Question
-The password for the next level is stored in a file readme in the homedirectory. Unfortunately, someone has modified .bashrc to log you out when you log in with SSH.
-
-#### Answer
-
-```
-    $ ssh -p2220 bandit19@bandit.labs.overthewire.org
-```
-
-This will spit out the passwd for the next level. 
-
-**passwd*: `IueksS7Ubh8G3DCwVzrTd8rAVOwq3M5x`
-
-<hr>
-
-### Level 20
 
 #### Question
 To gain access to the next level, you should use the setuid binary in the homedirectory. Execute it without arguments to find out how to use it. The password for this level can be found in the usual place (/etc/bandit_pass), after you have used the setuid binary.
@@ -584,7 +568,7 @@ To gain access to the next level, you should use the setuid binary in the homedi
 #### Answer
 
 ```
-    $ ssh -p2220 bandit20@bandit.labs.overthewire.org
+    $ ssh -p2220 bandit19@bandit.labs.overthewire.org
 ```
 
 To get some basic idea about setuid, guid and sticky bit watch this video [here](https://www.youtube.com/watch?v=2gHp_CgUets). And as the question suggests when I run the command `./bandit20-do whoami` it says `bandit20` so like whatever we make it execute will be executed with the perms of `bandit20` and thus we can easily look into the passwd.
@@ -599,7 +583,7 @@ This will spit out the passwd for the next level.
 
 <hr>
 
-### Level 21
+### Level 20
 
 #### Question
 There is a setuid binary in the homedirectory that does the following: it makes a connection to localhost on the port you specify as a commandline argument. It then reads a line of text from the connection and compares it to the password in the previous level (bandit20). If the password is correct, it will transmit the password for the next level (bandit21).
@@ -627,6 +611,153 @@ This will give us the passwd
 
 
 **passwd*: `gE269g2h3mw3pwgrj0Ha9Uoqen1c9DGr`
+
+
+<hr>
+
+### Level 21
+
+#### Question
+A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed.
+
+#### Answer
+
+```
+    $ ssh -p2220 bandit21@bandit.labs.overthewire.org
+```
+
+Just follow the steps. 
+1. List all the files in the cron folder. `cd /etc/cron.d && ls`
+2. The file that is in our interest is the `cronjob_bandit22`. So cat the file. 
+3. You will see it is doing something with this script `/usr/bin/cronjob_bandit22.sh`. So check the script out
+
+The script has this
+```bash
+#!/bin/bash
+chmod 644 /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+cat /etc/bandit_pass/bandit22 > /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+```
+
+So the pass for the level is copied in that temp file. So simply cat the file
+
+```
+cat /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+```
+This wil give the passwd
+
+**passwd*: `Yk7owGAcWjwMVRwrTesJEwB7WVOiILLI`
+
+<hr>
+
+### Level 22
+
+#### Question
+A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed.
+
+NOTE: Looking at shell scripts written by other people is a very useful skill. The script for this level is intentionally made easy to read. If you are having problems understanding what it does, try executing it to see the debug information it prints..
+
+#### Answer
+
+```
+    $ ssh -p2220 bandit22@bandit.labs.overthewire.org
+```
+
+We have to follow the same steps as previous question. Do 1, 2, 3 of the above question. And now check out the script. 
+
+```bash
+#!/bin/bash
+
+myname=$(whoami)
+mytarget=$(echo I am user $myname | md5sum | cut -d ' ' -f 1)
+
+echo "Copying passwordfile /etc/bandit_pass/$myname to /tmp/$mytarget"
+
+cat /etc/bandit_pass/$myname > /tmp/$mytarget
+```
+
+Now this time too the password of the current level is copied to a file in target which is calculated. Now a easier solution would be to create a bash executable of our own that will generate the `mytarget`. 
+So in the `/tmp` folder create a bash file. And save this in that file. 
+
+```bash
+#!/bin/bash
+
+myname=bandit23
+mytarget=$(echo I am user $myname | md5sum | cut -d ' ' -f 1)
+
+echo "Copying passwordfile /etc/bandit_pass/$myname to /tmp/$mytarget"
+
+```
+Now one thing if you look into the perms of the bash file you will notice that the file belongs to `bandit23` so the result of the `whoami` will be `bandit23`.
+Make this file executable and run it 
+
+```
+Copying passwordfile /etc/bandit_pass/bandit23 to /tmp/8ca319486bfbbc3663ea0fbe81326349
+```
+Then again cat the temp file to get the passwd
+
+```
+cat /tmp/8ca319486bfbbc3663ea0fbe81326349
+> jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n
+```
+
+
+**passwd*: `jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n`
+
+<hr>
+
+### Level 23
+
+#### Question
+A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed.
+
+NOTE: Looking at shell scripts written by other people is a very useful skill. The script for this level is intentionally made easy to read. If you are having problems understanding what it does, try executing it to see the debug information it prints..
+
+#### Answer
+
+```
+    $ ssh -p2220 bandit22@bandit.labs.overthewire.org
+```
+
+We have to follow the same steps as previous question. Do 1, 2, 3 of the above question. And now check out the script. 
+
+```bash
+#!/bin/bash
+
+myname=$(whoami)
+mytarget=$(echo I am user $myname | md5sum | cut -d ' ' -f 1)
+
+echo "Copying passwordfile /etc/bandit_pass/$myname to /tmp/$mytarget"
+
+cat /etc/bandit_pass/$myname > /tmp/$mytarget
+```
+
+Now this time too the password of the current level is copied to a file in target which is calculated. Now a easier solution would be to create a bash executable of our own that will generate the `mytarget`. 
+So in the `/tmp` folder create a bash file. And save this in that file. 
+
+```bash
+#!/bin/bash
+
+myname=bandit23
+mytarget=$(echo I am user $myname | md5sum | cut -d ' ' -f 1)
+
+echo "Copying passwordfile /etc/bandit_pass/$myname to /tmp/$mytarget"
+
+```
+Now one thing if you look into the perms of the bash file you will notice that the file belongs to `bandit23` so the result of the `whoami` will be `bandit23`.
+Make this file executable and run it 
+
+```
+Copying passwordfile /etc/bandit_pass/bandit23 to /tmp/8ca319486bfbbc3663ea0fbe81326349
+```
+Then again cat the temp file to get the passwd
+
+```
+cat /tmp/8ca319486bfbbc3663ea0fbe81326349
+> jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n
+```
+
+
+**passwd*: `jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n`
 
 References:
 * [CheatSheet](https://gist.github.com/bradtraversy/ac3b1136fc7d739a788ad1e42a78b610#file-myscript-sh)
